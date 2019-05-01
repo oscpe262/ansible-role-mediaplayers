@@ -1,0 +1,4 @@
+## roles/ansible-role-mediaplayers/vars/main.yml
+# vim:ft=yaml.ansible:
+---
+...

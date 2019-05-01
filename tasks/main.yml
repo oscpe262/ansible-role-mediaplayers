@@ -1,0 +1,34 @@
+## roles/ansible-role-mediaplayers/tasks/main.yml
+# vim:ft=yaml.ansible:
+---
+- name: "Install Spotify repo"
+  yum_repository:
+    name: fedora-spotify
+    description: "negativo17 - Spotify"
+    baseurl: "https://negativo17.org/repos/spotify/fedora-$releasever/$basearch"
+    gpgkey: "https://negativo17.org/repos/RPM-GPG-KEY-slaanesh"
+    gpgcheck: yes
+    state: present
+  tags: media,spotify
+
+  ##  As running with --check flag won't include newly installed repos,
+  #   this will fail until the repo is actually installed.
+- name: "Install Spotify client and deps"
+  dnf:
+    name:
+      - spotify-client
+      - libXScrnSaver
+    enablerepo: fedora-spotify
+    state: latest
+  ignore_errors: yes
+  tags: media,spotify
+
+- name: "Install media players and codecs"
+  dnf:
+    name:
+      - '@Sound and Video'
+      - vlc
+      - kodi
+    state: present
+  tags: media,vlc,kodi
+...
