@@ -10,6 +10,7 @@
     gpgcheck: yes
     state: present
   tags: media,spotify
+  when: "'Fedora' in ansible_distribution"
 
   ##  As running with --check flag won't include newly installed repos,
   #   this will fail until the repo is actually installed.
@@ -22,13 +23,24 @@
     state: latest
   ignore_errors: yes
   tags: media,spotify
+  when: "'Fedora' in ansible_distribution"
 
+## This needs to be adjusted when epel8 is released, as currently, vlc depends on kde-filesystem
 - name: "Install media players and codecs"
   dnf:
     name:
-      - '@Sound and Video'
       - vlc
       - kodi
     state: present
   tags: media,vlc,kodi
+  #when: "'RedHat' in ansible_os_family"
+  when: "'Fedora' in ansible_distribution"
+
+- name: "Install media players and codecs (Fedora)"
+  dnf:
+    name:
+      - '@Sound and Video'
+    state: present
+  tags: media
+  when: "'Fedora' in ansible_distribution"
 ...
